@@ -6,7 +6,7 @@ import sagas from './sagas';
 import reducers from './reducers';
 
 const reducer = combineReducers(reducers);
-export type IState = ReturnType<typeof reducer>;
+export type DefaultState = ReturnType<typeof reducer>;
 
 export default () => {
   const composeEnhancers = composeWithDevTools({});

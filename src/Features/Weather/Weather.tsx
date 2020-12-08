@@ -5,7 +5,7 @@ import { Provider, createClient, useQuery } from 'urql';
 import { useGeolocation } from 'react-use';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Chip from '../../components/Chip';
-import { IState } from '../../store';
+import { DefaultState } from '../../store';
 
 const client = createClient({
   url: 'https://react.eogresources.com/graphql',
@@ -21,7 +21,7 @@ query($latLong: WeatherQuery!) {
 }
 `;
 
-const getWeather = (state: IState) => {
+const getWeather = (state: DefaultState) => {
   const { temperatureinFahrenheit, description, locationName } = state.weather;
   return {
     temperatureinFahrenheit,
