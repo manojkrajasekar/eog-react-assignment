@@ -7,7 +7,7 @@ import { OperationResult } from 'urql';
 import { getMetrics, getUpdatedValues } from './selectors';
 import { getTimeAgo } from '../../utils';
 
-const DURATION_IN_MINUTES = 30;
+const DURATION = 30;
 
 interface QueryResult {
   getMeasurements: metricInterface[];
@@ -75,7 +75,7 @@ function* fetchPastData({ payload }: PayloadAction<SelectPayload>) {
     }`,
       {
         metricName: newMetric,
-        after: getTimeAgo(DURATION_IN_MINUTES),
+        after: getTimeAgo(DURATION),
       },
     )
     .toPromise();
