@@ -20,7 +20,7 @@ export interface SelectPayload {
   newMetric: string;
 }
 
-export interface MetricsWithLatest {
+export interface MetricsUpdated {
   metrics: {
     [at: string]: metricInterface;
   };

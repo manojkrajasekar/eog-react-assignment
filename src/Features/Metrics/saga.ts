@@ -4,7 +4,7 @@ import { SelectPayload, metricInterface } from './types';
 import { PayloadAction } from 'redux-starter-kit';
 import { client } from './Metrics';
 import { OperationResult } from 'urql';
-import { getMetrics, getUpdateValues } from './selectors';
+import { getMetrics, getUpdatedValues } from './selectors';
 import { getTimeAgo } from '../../utils';
 
 const DURATION_IN_MINUTES = 30;
@@ -20,7 +20,7 @@ interface QueryArgs {
 
 function* transformData({ payload: { metric, at, value } }: PayloadAction<metricInterface>) {
   const data: { [at: string]: metricInterface } = yield select(getMetrics);
-  const previousValue: { [metric: string]: number } = yield select(getUpdateValues);
+  const previousValue: { [metric: string]: number } = yield select(getUpdatedValues);
   const hrs = new Date(at).getHours() % 12 || 12;
   const mins = new Date(at).getMinutes();
   const timeAt = `${('0' + hrs).slice(-2)}:${('0' + mins).slice(-2)}`;

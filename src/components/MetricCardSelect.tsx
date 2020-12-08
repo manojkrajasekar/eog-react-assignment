@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSubscription, useQuery } from 'urql';
 import { Grid, CardContent, Typography, Card, CardHeader } from '@material-ui/core';
-import { getSelectedItems, getUpdateValues } from '../Features/Metrics/selectors';
+import { getSelectedItems, getUpdatedValues } from '../Features/Metrics/selectors';
 import { metricInterface } from '../Features/Metrics/types';
 import { actions } from '../Features/Metrics/reducer';
 
@@ -59,9 +59,12 @@ interface SubscriptionData {
 }
 
 const MetricCardSelect: React.FC = () => {
-  const selectedItems = useSelector(getSelectedItems);
-  const latestValue = useSelector(getUpdateValues);
   const dispatch = useDispatch();
+
+  const selectedItems = useSelector(getSelectedItems);
+
+  const UpdatedValue = useSelector(getUpdatedValues);
+
   const [result] = useSubscription<SubscriptionData>({
     query: `
         subscription {
@@ -80,11 +83,10 @@ const MetricCardSelect: React.FC = () => {
     data && dispatch(actions.newMetricValueFetched(data.newMeasurement));
   }, [data, dispatch]);
 
-  console.log('Metric Cards Selection component', selectedItems);
   return (
     <>
       {selectedItems.map(metric => (
-        <MetricCard key={metric} metricName={metric} currentValue={latestValue[metric]} />
+        <MetricCard key={metric} metricName={metric} currentValue={UpdatedValue[metric]} />
       ))}
     </>
   );

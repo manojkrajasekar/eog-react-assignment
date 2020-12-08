@@ -64,7 +64,6 @@ const Graphs: React.FC = () => {
     },
   };
 
-  console.log('Graph Component Render', selectedValues);
   return (
     <Grid container className={classes.graphContainer}>
       <ResponsiveContainer>

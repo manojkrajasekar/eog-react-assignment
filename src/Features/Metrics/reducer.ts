@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
-import { metricInterface, MetricsPayload, MetricInitialState, MetricsWithLatest, SelectPayload } from './types';
+import { metricInterface, MetricsPayload, MetricInitialState, MetricsUpdated, SelectPayload } from './types';
 
 const initialState: MetricInitialState = {
   selected: [],
@@ -18,7 +18,7 @@ const slice = createSlice({
         selected,
       };
     },
-    metricDataRecieved: (state, action: PayloadAction<MetricsWithLatest>) => {
+    metricDataRecieved: (state, action: PayloadAction<MetricsUpdated>) => {
       const { metrics, latestValue } = action.payload;
       return {
         ...state,
