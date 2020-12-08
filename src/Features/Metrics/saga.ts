@@ -23,13 +23,14 @@ function* transformData({ payload: { metric, at, value } }: PayloadAction<metric
   const previousValue: { [metric: string]: number } = yield select(getUpdatedValues);
   const hrs = new Date(at).getHours() % 12 || 12;
   const mins = new Date(at).getMinutes();
-  const timeAt = `${('0' + hrs).slice(-2)}:${('0' + mins).slice(-2)}`;
+  const lastTimeAt = `${('0' + hrs).slice(-2)}:${('0' + mins).slice(-2)}`;
+
   const metrics = {
     ...data,
     [at]: {
       ...data[at],
       [metric]: value,
-      at: timeAt,
+      at: lastTimeAt,
     },
   };
   const latestValue = {
@@ -45,13 +46,13 @@ function* mergeData(list?: metricInterface[]) {
     const { metric, at, value } = item;
     const hrs = new Date(at).getHours() % 12 || 12;
     const mins = new Date(at).getMinutes();
-    const timeAt = `${('0' + hrs).slice(-2)}:${('0' + mins).slice(-2)}`;
+    const lastTimeAt = `${('0' + hrs).slice(-2)}:${('0' + mins).slice(-2)}`;
     metrics = {
       ...metrics,
       [at]: {
         ...metrics[at],
         [metric]: value,
-        at: timeAt,
+        at: lastTimeAt,
       },
     };
   });
@@ -60,6 +61,7 @@ function* mergeData(list?: metricInterface[]) {
 
 function* fetchPastData({ payload }: PayloadAction<SelectPayload>) {
   const { newMetric } = payload;
+
   const { data }: OperationResult<QueryResult> = yield client
     .query<QueryResult, QueryArgs>(
       `
@@ -77,6 +79,7 @@ function* fetchPastData({ payload }: PayloadAction<SelectPayload>) {
       },
     )
     .toPromise();
+
   yield fork(mergeData, data?.getMeasurements);
 }
 
